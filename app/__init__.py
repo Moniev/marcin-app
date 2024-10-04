@@ -59,7 +59,7 @@ def asyncSessionLoader() -> async_sessionmaker[AsyncSession]:
         )
         return session
     
-'''MAIN LOOP'''
+'''APP'''
 def createApp() -> Flask:
     
     '''LOGIN MANAGER'''
