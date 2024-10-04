@@ -5,7 +5,7 @@ from flask import Flask, url_for, redirect
 app: Flask = createApp()
 
 
-@app.route('')
+@app.route('/')
 async def index():
     return redirect(url_for('views.landingPage'))
 

@@ -1,5 +1,6 @@
 from app import asyncSessionLoader
-from crud import CRUD 
+from app.utils import measureExecutionTime
+from app.crud import CRUD 
 import datetime
 from flask import Blueprint
 

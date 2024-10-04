@@ -3,9 +3,6 @@ from sqlalchemy import select
 from typing import Optional, Union
 
 class CRUD():
-    def __init__(self):
-        pass
-    
     '''ADD RECORD TO DATABASE'''
     async def add(self, async_session: async_sessionmaker[AsyncSession], item: object) -> Optional[object]:
         async with async_session() as session:   
