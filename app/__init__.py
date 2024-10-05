@@ -1,4 +1,3 @@
-from asgiref.wsgi import WsgiToAsgi
 import asyncio
 from app.settings import DATABASE_URL, MAIL_ADDRESS, MAIL_SERVER_PASSWORD
 from flask_login import LoginManager
@@ -11,10 +10,6 @@ from typing import Union
 
 '''WEB SERVER GATEWAY INTERFACE OBJECT'''
 app = Flask(__name__)
-
-
-'''WRAPPED WSGI TO ASGI'''
-asgi_app: Flask = WsgiToAsgi(app)
 
 
 '''BASE CLASS FOR DATABASE MODELS'''
@@ -31,7 +26,8 @@ def makeAsyncConnection() -> Union[AsyncEngine, bool]:
             poolclass=NullPool,
         )
         return db
-    except:
+    except Exception as e:
+        print(e)
         return False
     
     
@@ -44,9 +40,7 @@ async def createDatabase() -> None:
     connection: AsyncEngine = makeAsyncConnection()
     if connection:
         async with connection.begin() as _connection:
-            '''IMPORTING MODELS GOES HERE'''
-            # FULLFILL YOUR DUTY WITH PROPER MODELS IMPORTS
-            ''' ^^^ ^^^ ^^^ ^^^  ^^^ ^^^ '''
+            from .models import Customer, Task, TaskIncome, TaskLocation
             await _connection.run_sync(Base.metadata.create_all)
         await connection.dispose()
 
