@@ -8,7 +8,7 @@ DATABASE_URL = f"postgresql+asyncpg://u7prj23fn6atav:p1f0eaeb780fbbb7f30619d2b65
 
 ''' SMTP DATA'''
 MAIL_SERVER = ""
-MAIL_USERNAME = f"@"
+MAIL_USERNAME = f"A@B.com"
 MAIL_PASSWORD = f""
 MAIL_PORT = "465"
 MAIL_USE_TLS = False
