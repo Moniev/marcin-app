@@ -7,7 +7,7 @@ app: Flask = createApp()
 
 @app.route('/')
 async def index():
-    return redirect(url_for("views.landingPage"))
+    return redirect(url_for("views.home"))
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

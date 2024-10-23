@@ -7,14 +7,28 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>#####</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>RANDOM TITLE</title>
     {%endblock%}
   </head>
   <body>
   {%block body%}
-    <header>
+    <header class="header">
+      <a href="#MAINPAGE_URL#" class="logo">Logo</a>
+
+      <label for="" class="icons">
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <i class='bx bx-x' id="close-icon"></i>
+      </label>
+      
       <nav class="navbar">
+        <a href="HOME_URL">Strona Główna</a>
+        <a href="HOME_URL">O nas</a>
+        <a href="HOME_URL">Galeria</a>
+        <a href="HOME_URL">Usługi</a>
+        <a href="HOME_URL">Kontakt</a>
       </nav>
+    
     </header>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}

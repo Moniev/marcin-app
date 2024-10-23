@@ -26,7 +26,7 @@ class Task(Base):
         self.completion_date: datetime = completion_date
         
     def __repr__(self) -> str:
-        return f""
+        return f"[TASK][task_id: {self.id}][customer_id: {self.customer_id}][task_text: {self.task_text}][load_type: {self.load_type}][date: {self.load_type}][completed: {self.completed}][completion_date: {self.completion_date}]"
 
 
 class TaskLocation(Base):
@@ -48,7 +48,7 @@ class TaskLocation(Base):
         self.task_house: int = task_house
     
     def __repr__(self) -> str:
-        return f""
+        return f"[TASK_LOCATION][id: {self.id}][task_id: {self.task_id}][task_city: {self.task_city}][task_postal_code: {self.task_postal_code}][task_street: {self.task_street}][task_house: {self.task_house}]"
 
 
 class TaskIncome(Base):
@@ -64,7 +64,7 @@ class TaskIncome(Base):
         self.task_income: float = task_income
 
     def __repr__(self) -> str:
-        return f""
+        return f"[TASK_INCOME][id: {self.id}][task_id: {self.task_id}][task_income: {self.task_income}]"
 
 
 class Customer(Base):
@@ -88,7 +88,7 @@ class Customer(Base):
         self.customer_postal_code: str = customer_postal_code
 
     def __repr__(self) -> str:
-        return f"{self.id} {self.customer_name} {self.customer_surname}"
+        return f"[CUSTOMER][id: {self.id}][customer_name: {self.customer_name}][customer_surname: {self.customer_surname}][][][][]"
 
 
 class User(Base):
@@ -98,7 +98,7 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(48), nullable=False)
     email: Mapped[str] = mapped_column(String(48), nullable=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    __bind_key__ = "User"
+    __tablename__ = "User"
     
     def __init__(self, id: int, nickname: str, password: str, email: str, is_superuser: bool):
         self.id: int = id
@@ -108,5 +108,5 @@ class User(Base):
         self.is_superuser: bool = is_superuser
     
     def __repr__(self) -> str:
-        return f""
+        return f"[USER][id: {self.id}][nickname: {self.nickname}][password: {self.password}][email: {self.email}][is_superuser: {self.is_superuser}]"
     
