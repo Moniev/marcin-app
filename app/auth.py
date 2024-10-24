@@ -1,6 +1,6 @@
 from app import asyncSessionLoader
 from app.utils import measureExecutionTime
-from app.crud import CRUD 
+import app.crud
 import datetime
 from flask import Blueprint, render_template
 from flask_login import login_required, logout_user, current_user

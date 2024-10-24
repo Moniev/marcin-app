@@ -1,13 +1,14 @@
 import asyncio
-from app.settings import DATABASE_URL, MAIL_USERNAME, MAIL_PASSWORD, MAIL_SERVER, MAIL_PORT, MAIL_USE_SSL, MAIL_USE_TLS
+from dotenv import load_dotenv
 from flask_login import LoginManager
 from flask import Flask
+import os
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 from typing import Union
 from flask_mail import Mail
-
+ 
 '''WEB SERVER GATEWAY INTERFACE OBJECT'''
 app = Flask(__name__)
 
@@ -17,11 +18,13 @@ class Base(DeclarativeBase):
     pass
 
 
+load_dotenv()
+
 '''REQUESTS FOR A CONNECTION TO DATABASE'''
 def makeAsyncConnection() -> Union[AsyncEngine, bool]:
     try: 
         db = create_async_engine(
-            url=DATABASE_URL,
+            url=os.getenv("DATABASE_URL"),
             echo=True,
             poolclass=NullPool,
         )
@@ -56,6 +59,7 @@ def asyncSessionLoader() -> async_sessionmaker[AsyncSession]:
 '''APP'''
 def createApp() -> Flask:
     from .models import User
+    from .crud import getUserbyId
     '''LOGIN MANAGER'''
     login_manager: LoginManager = LoginManager()
     login_manager.login_view = f"auth.login"
@@ -65,7 +69,7 @@ def createApp() -> Flask:
     
     @login_manager.user_loader
     def load_user(id: str):
-        return User.query.get(int(id))
+        return getUserbyId(async_session=asyncSessionLoader(), id=(int(id)))
     
     '''DATABASE CREATION'''
     if connection:
@@ -75,17 +79,17 @@ def createApp() -> Flask:
     
     '''CONFIGS'''
     app.config["SQLALCHEMY_ECHO"] = False
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_BINDS"] = {
-        "DB": DATABASE_URL,
+        "DB": os.getenv("DATABASE_URL"),
         }
-    app.config["MAIL_SERVER"] = MAIL_SERVER
-    app.config["MAIL_USERNAME"] = MAIL_USERNAME
-    app.config["MAIL_PASSWORD"] = MAIL_PASSWORD
-    app.config["MAIL_SERVER_PASSWORD"] = MAIL_PASSWORD
-    app.config["MAIL_PORT"] = MAIL_PORT
-    app.config["MAIL_USE_TLS"] = MAIL_USE_TLS
-    app.config["MAIL_USE_SSL"] = MAIL_USE_SSL
+    app.config["MAIL_SERVER"] =os.getenv("MAIL_SERVER")
+    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+    app.config["MAIL_SERVER_PASSWORD"] = os.getenv("MAIL_SERVER")
+    app.config["MAIL_PORT"] = os.getenv("MAIL_PORT")
+    app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS")
+    app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SLL")
     
     '''REGISTER BLUEPRINTS'''
     from .auth import auth
