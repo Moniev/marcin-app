@@ -60,6 +60,7 @@ def asyncSessionLoader() -> async_sessionmaker[AsyncSession]:
 def createApp() -> Flask:
     from .models import User
     from .crud import getUserbyId
+    
     '''LOGIN MANAGER'''
     login_manager: LoginManager = LoginManager()
     login_manager.login_view = f"auth.login"
