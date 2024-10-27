@@ -22,7 +22,7 @@ async def delete(async_session: async_sessionmaker[AsyncSession], item: object) 
         await session.close()
         return item
 
-async def getUserbyId(async_session: async_sessionmaker[AsyncSession], id: int) -> Optional[object]:
+async def getUserbyId(async_session: async_sessionmaker[AsyncSession], id: int) -> Optional[User]:
     async with async_session() as session:
         statement = select(User).filter_by(User.id == id)
         result = await session.execute(statement=statement)

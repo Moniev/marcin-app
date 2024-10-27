@@ -1,9 +1,8 @@
 from app import createApp
 from flask import Flask, url_for, redirect
-
+import subprocess
 
 app: Flask = createApp()
-
 
 @app.route('/')
 async def index():

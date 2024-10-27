@@ -1,17 +1,20 @@
 import asyncio
 from dotenv import load_dotenv
-from flask_login import LoginManager
 from flask import Flask
+from flask_cors import CORS, cross_origin
+from flask_login import LoginManager
+from flask_mail import Mail
 import os
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 from typing import Union
-from flask_mail import Mail
+
+
  
 '''WEB SERVER GATEWAY INTERFACE OBJECT'''
-app = Flask(__name__)
-
+app: Flask = Flask(__name__)
+CORS(app)  
 
 '''BASE CLASS FOR DATABASE MODELS'''
 class Base(DeclarativeBase):
@@ -69,7 +72,7 @@ def createApp() -> Flask:
     login_manager.init_app(app)
     
     @login_manager.user_loader
-    def load_user(id: str):
+    def load_user(id: str) -> User:
         return getUserbyId(async_session=asyncSessionLoader(), id=(int(id)))
     
     '''DATABASE CREATION'''
@@ -91,6 +94,9 @@ def createApp() -> Flask:
     app.config["MAIL_PORT"] = os.getenv("MAIL_PORT")
     app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS")
     app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SLL")
+    
+    '''MIDDLEWARE'''
+    app.config['CORS_HEADERS'] = 'Content-Type'
     
     '''REGISTER BLUEPRINTS'''
     from .auth import auth
